@@ -1,5 +1,6 @@
 # HuHoLa : Hummock - Hollow - Lawn Microtopography model
-`Mires` `Peatlands` `Microtopography` `Hydromorphology` `Hydrology` `DEM` `Fill sinks`
+`Mires` `Peatlands` `Microtopography` `Hydromorphology` 
+`Hydrology` `DEM` `Fill sinks`
 
 ## Description
 HuHoLa is a simple model that relies on fill algorithms for identifying microtopography features using a digital elevation model (DEM).
@@ -10,6 +11,7 @@ To identify hummocks, the DEM is flipped upside down by substracting it from its
 
 ## Dependencies
 `WBT` `rasterio` `numpy`
+
 The fill algorithms are applied using Whitebox Tools
 
 ...
