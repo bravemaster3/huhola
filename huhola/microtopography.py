@@ -69,6 +69,7 @@ class HuHoLa():
         path_dem (str): Path to the digital elevation model (DEM) file.
         fill_method (str, optional): Method for filling depressions in the DEM. Default is "wang_liu".
         fix_flats (bool, optional): Whether to fix flats during DEM filling. Default is False.
+        fix_flats_inv (bool, optional): Whether to fix flats during the filling of the inverted DEM. Default is False.
         flat_increment (float, optional): Increment value for flat areas during DEM filling. Default is 0.0001.
         threshold_fill (float, optional): Threshold value for classifying microtopography features. Default is 0.0.
         number_classes (int, optional): Number of classes for microtopography classification. Default is None.
@@ -81,6 +82,7 @@ class HuHoLa():
                  path_dem: str,
                  fill_method: str = "wang_liu",
                  fix_flats: bool = False,
+                 fix_flats_inv: bool = False,
                  flat_increment: float = 0.0001,
                  threshold_fill: float = 0.0,
                  number_classes: int = None,
@@ -248,6 +250,19 @@ class HuHoLa():
             raise TypeError("fix_flats must be True or False")
         else:
             self._fix_flats = value
+
+    @property
+    def fix_flats_inv(self):
+        """Getter for fix_flats_inv"""
+        return self._fix_flats_inv
+    
+    @fix_flats_inv.setter
+    def fix_flats_inv(self, value):
+        """Setter for fix_flats_inv"""
+        if type(value) is not bool:
+            raise TypeError("fix_flats_inv must be True or False")
+        else:
+            self._fix_flats_inv = value
     
     
     @property
@@ -370,8 +385,8 @@ class HuHoLa():
         self.__fill_method_dict[self.fill_method](
             dem = self._p_inv_dem, 
             output = self._p_filled_inv_dem, 
-            fix_flats=self.fix_flats, 
-            flat_increment=self.flat_increment)
+            fix_flats = self.fix_flats_inv, 
+            flat_increment = self.flat_increment)
         print("End of Fill 2: ...Inverted DEM...")
         
         with rasterio.open(self._p_filled_inv_dem, "r") as src:
@@ -397,7 +412,7 @@ class HuHoLa():
             dest.write(self.hol_hum_depth_height)
     
     def classify_microtopography(self):
-        """Calculation of difference between hummock and hollow layer, and classification into hummock, hollow and lawn"""
+        """Uses the difference between hummock and hollow layer, and classification into hummock, hollow and lawn"""
         
         # #Before anything, let's refresh the init call because this method can be run separately and needs some variables to be updated
         # all_vars = self.__dict__.copy()
