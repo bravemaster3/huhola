@@ -83,7 +83,7 @@ class HuHoLa():
                  fill_method: str = "wang_liu",
                  fix_flats: bool = False,
                  fix_flats_inv: bool = False,
-                 flat_increment: float = 0.0001,
+                 flat_increment: float = 0.001,
                  threshold_fill: float = 0.0,
                  number_classes: int = None,
                  sieve: bool = False,
@@ -121,6 +121,7 @@ class HuHoLa():
         
         # Setting the fix flats and flat increment using the setter methods
         self.fix_flats = fix_flats
+        self.fix_flats_inv = fix_flats_inv
         self.flat_increment = flat_increment
         
         # Setting the sieve and min_sieve_size using their setter methods
