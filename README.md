@@ -75,7 +75,7 @@ If you plan to use Jupyter notebooks:
 ### 5. Download and Configure WhiteboxTools
 1. Download WhiteboxTools [here](https://www.whiteboxgeo.com/download-whiteboxtools/).
 2. Extract the content to a folder.
-3. Note the path to the binary files; you will need it to use HuHoLa (the argument "path_wbt".
+3. Note the path to the binary files; you will need it to use HuHoLa (the argument "path_wbt").
 
 ---
 
