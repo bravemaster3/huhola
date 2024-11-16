@@ -33,7 +33,7 @@ Created on Tue Nov 21 08:24:28 2023
 """
 
 import os
-import whitebox_tools as wb
+from whitebox import whitebox_tools as wb
 import rasterio
 import numpy as np
 from rasterio.features import sieve
@@ -43,7 +43,6 @@ import csv
 import geopandas as gpd
 import pandas as pd
 import rasterio
-import numpy as np
 import os
 
 
@@ -437,16 +436,16 @@ class HuHoLa():
         #Pure lawns
         hol_hum_depth_height[hol_hum == 0] = 0
         
-        if self.number_classes is None or self.number_classes == 5:
-            #lawns upper-level and lower-level
-            hol_hum_depth_height[np.logical_and(hol_hum <= self.threshold_fill, hol_hum > 0)] = 3
-            hol_hum_depth_height[np.logical_and(hol_hum < 0, hol_hum >= -self.threshold_fill)] = 4
-            #Solving class that is filled both in DEM and inverted DEM
-            hol_hum_depth_height[np.logical_and.reduce((self.hollows_lyr > 0, self.hummock_lyr > 0, self.hollows_lyr > self.hummock_lyr))] = 1
-            hol_hum_depth_height[np.logical_and.reduce((self.hollows_lyr > 0, self.hummock_lyr > 0, self.hummock_lyr >= self.hollows_lyr))] = 2
+        #lawns upper-level and lower-level
+        hol_hum_depth_height[np.logical_and(hol_hum <= self.threshold_fill, hol_hum > 0)] = 3
+        hol_hum_depth_height[np.logical_and(hol_hum < 0, hol_hum >= -self.threshold_fill)] = 4
+        #Solving class that is filled both in DEM and inverted DEM
+        hol_hum_depth_height[np.logical_and.reduce((self.hollows_lyr > 0, self.hummock_lyr > 0, self.hollows_lyr > self.hummock_lyr))] = 1
+        hol_hum_depth_height[np.logical_and.reduce((self.hollows_lyr > 0, self.hummock_lyr > 0, self.hummock_lyr >= self.hollows_lyr))] = 2
+        if self.number_classes == 5:
             with rasterio.open(self._p_final_microtopo5, "w", **self.meta) as dest:
                 dest.write(hol_hum_depth_height)
-        if self.number_classes is None or self.number_classes == 3:
+        elif self.number_classes is None or self.number_classes == 3:
             #lawns upper-level and lower-level are also treated as pure lanws
             hol_hum_depth_height[np.logical_or(hol_hum_depth_height == 3, hol_hum_depth_height == 4)] = 0
             with rasterio.open(self._p_final_microtopo3, "w", **self.meta) as dest:
