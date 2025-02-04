@@ -55,6 +55,13 @@ Navigate to the repository folder and install required libraries:
 cd /path/to/huhola
 pip install -r requirements.txt
 ```
+If you get any errors related to C compilation problem of numpy, then try to stick to conda, and install numpy alone first, then pip install -r requirements.txt
+
+```bash
+# If you are not using conda environment, then start over, and use conda instead as described in step 2
+conda install numpy=1.24.3
+pip install -r requirements.txt
+```
 
 ---
 
